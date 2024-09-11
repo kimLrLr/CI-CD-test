@@ -33,6 +33,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Test SSH Connection
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo SSH connection successful"
+          rm private_key.pem
+
       - name: Set up SSH key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_TEST }}
