@@ -62,5 +62,3 @@ jobs:
       #     EOF
 
       #     rm private_key.pem
-
-      #test
