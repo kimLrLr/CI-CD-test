@@ -24,3 +24,28 @@ jobs:
       - run: npm run build --if-present
       - run: npm run lint
       - run: npm test
+
+  deploy:
+    runs-on: ubuntu-24.04
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Ubuntu Server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_TEST }}
+          SERVER_IP: ${{ secrets.SERVER_IP_TEST }}
+          SERVER_USER: ${{ secrets.SERVER_USER_TEST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+          scp -i private_key.pem -o StrictHostKeyChecking=no -r ./dist $SERVER_USER@$SERVER_IP:/home/kimlrlr
+
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << EOF
+            cd /path/to/deploy
+            npm install --production
+            pm2 restart all  # If you are using pm2 to manage your Node.js processes
+          EOF
