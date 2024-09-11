@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         node-version: [20.x]
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -26,26 +26,32 @@ jobs:
       - run: npm test
 
   deploy:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     needs: build
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Ubuntu Server
+      - name: Set up SSH key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_TEST }}
-          SERVER_IP: ${{ secrets.SERVER_IP_TEST }}
-          SERVER_USER: ${{ secrets.SERVER_USER_TEST }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
 
+      - name: Deploy to Ubuntu Server
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP_TEST }}
+          SERVER_USER: ${{ secrets.SERVER_USER_TEST }}
+        run: |
           scp -i private_key.pem -o StrictHostKeyChecking=no -r ./dist $SERVER_USER@$SERVER_IP:/home/kimlrlr
 
           ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << EOF
-            cd /path/to/deploy
+            cd /home/kimlrlr
             npm install --production
-            pm2 restart all  # If you are using pm2 to manage your Node.js processes
+            pm2 restart all
           EOF
+
+      - name: Clean up
+        run: rm private_key.pem
