@@ -40,11 +40,6 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
 
-      - name: Debug environment variables
-        run: |
-          echo "SERVER_IP is $SERVER_IP"
-          echo "SERVER_USER is $SERVER_USER"
-
       - name: Deploy to Ubuntu Server
         env:
           SERVER_IP: ${{ secrets.SERVER_IP_TEST }}
