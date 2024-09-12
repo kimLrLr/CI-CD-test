@@ -33,16 +33,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Test SSH Connection
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_TEST }}
-          SERVER_IP: ${{ secrets.SERVER_IP_TEST }}
-          SERVER_USER: ${{ secrets.SERVER_USER_TEST }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo SSH connection successful"
-          rm private_key.pem
+       - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4        
+        with:
+          host: ${{ secrets.HOST }}          
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          timeout: 40s  # 30초 기본        
+          script: |
+            echo "테스트 출력"
+
+      # - name: Test SSH Connection
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_TEST }}
+      #     SERVER_IP: ${{ secrets.SERVER_IP_TEST }}
+      #     SERVER_USER: ${{ secrets.SERVER_USER_TEST }}
+      #   run: |
+      #     echo "$SSH_PRIVATE_KEY" > private_key.pem
+      #     chmod 600 private_key.pem
+      #     ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo SSH connection successful"
+      #     rm private_key.pem
 
       # - name: Deploy to Ubuntu Server
       #   env:
@@ -62,3 +73,5 @@ jobs:
       #     EOF
 
       #     rm private_key.pem
+
+      #..
