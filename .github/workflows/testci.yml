@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [20.x]
@@ -40,7 +40,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no kimlrlr@127.0.0.1 'hostname && cd /home/kimlrlr/CI-CD-test && git pull && ./deploy_script.sh'
+          ssh -o StrictHostKeyChecking=no -p 9922 kimlrlr@127.0.0.1 'hostname && cd /home/kimlrlr/CI-CD-test && git pull && ./deploy_script.sh'
 
       # ssh -o StrictHostKeyChecking=no kimlrlr@127.0.0.1 'hostname && cd /path/to/app && git pull && ./deploy_script.sh'
       # - name: Test SSH Connection
