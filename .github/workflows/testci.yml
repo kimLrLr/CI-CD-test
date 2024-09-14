@@ -54,7 +54,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no -p 9922 kimlrlr@127.0.0.1 'hostname && cd /home/kimlrlr/CI-CD-test && git pull && ./deploy_script.sh'
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.HOST_IP }} 'hostname && cd /home/kimlrlr/CI-CD-test && git pull && ./deploy_script.sh'
 
       # ssh -o StrictHostKeyChecking=no kimlrlr@127.0.0.1 'hostname && cd /path/to/app && git pull && ./deploy_script.sh'
       # - name: Test SSH Connection
