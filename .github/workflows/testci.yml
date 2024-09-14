@@ -41,10 +41,9 @@ jobs:
 
       - name: Add server to known_hosts
         run: |
-          ssh-keyscan -H -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
-        continue-on-error: true
+          ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
 
-      - name: SSH to Ubuntu Server and create folders
+      - name: SSH to Ubuntu Server Update
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
 
