@@ -33,28 +33,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      # - name: Setup SSH key
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
 
-      - name: Add server to known_hosts
-        run: |
-          ssh-keyscan -H -p 9922 127.0.0.1 >> ~/.ssh/known_hosts
+      # - name: Add server to known_hosts
+      #   run: |
+      #     ssh-keyscan -H -p 9922 127.0.0.1 >> ~/.ssh/known_hosts
 
-      - name: SSH to Ubuntu Server and create folders
-        run: |
-          ssh -i ~/.ssh/id_rsa -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "mkdir -p /home/github/test/test1 && mkdir -p /home/github/test/test2"
+      # - name: SSH to Ubuntu Server and create folders
+      #   run: |
+      #     ssh -i ~/.ssh/id_rsa -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "mkdir -p /home/github/test/test1 && mkdir -p /home/github/test/test2"
 
       # - name: SSH Remote Commands
       #   uses: webfactory/ssh-agent@v0.9.0
       #   with:
       #     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      # - name: Deploy to server
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no -p 9922 kimlrlr@127.0.0.1 'hostname && cd /home/kimlrlr/CI-CD-test && git pull && ./deploy_script.sh'
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 9922 kimlrlr@127.0.0.1 'hostname && cd /home/kimlrlr/CI-CD-test && git pull && ./deploy_script.sh'
 
       # ssh -o StrictHostKeyChecking=no kimlrlr@127.0.0.1 'hostname && cd /path/to/app && git pull && ./deploy_script.sh'
       # - name: Test SSH Connection
