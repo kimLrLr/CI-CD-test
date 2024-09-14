@@ -38,7 +38,7 @@ jobs:
         env:
           WELCOME: 'ssh pipeline'
         with:
-          host: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST_IP }}
           user: ${{ secrets.SERVER_USER }}
           port: ${{ secrets.PORT }}
           connect_timeout: 10s
