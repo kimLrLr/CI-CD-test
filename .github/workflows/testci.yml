@@ -33,15 +33,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      # - name: Setup SSH key
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
 
-      - name: Add server to known_hosts
-        run: |
-          ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
+      # - name: Add server to known_hosts
+      #   run: |
+      #     ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
 
       # - name: SSH to Ubuntu Server Update
       #   run: |
