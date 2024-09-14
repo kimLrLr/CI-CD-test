@@ -43,9 +43,21 @@ jobs:
         run: |
           ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
 
+      # - name: SSH to Ubuntu Server Update
+      #   run: |
+      #     ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
+
       - name: SSH to Ubuntu Server Update
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
+        uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST_IP }}
+            username: ${{ secrets.SERVER_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: ${{ secrets.PORT }}
+            script: |
+              ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
+
+
 
       # - name: SSH Remote Commands
       #   uses: webfactory/ssh-agent@v0.9.0
