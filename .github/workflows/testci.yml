@@ -49,4 +49,3 @@ jobs:
       - name: SSH to Ubuntu Server Update
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.HOST_IP }} 'cd /home/kimlrlr/CI-CD-test && git pull'
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.HOST_IP }} 'cd /home/kimlrlr && mkdir hello'
