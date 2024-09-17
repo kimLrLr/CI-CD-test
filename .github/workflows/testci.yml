@@ -42,7 +42,7 @@ jobs:
 
       - name: Add server to known_hosts
         run: |
-          ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa kimlrlr >> ~/.ssh/known_hosts
 
       - name: SSH to Ubuntu Server Update
         run: |
