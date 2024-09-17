@@ -48,4 +48,4 @@ jobs:
 
       - name: SSH to Ubuntu Server Update
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@112.172.232.229 'cd /home/kimlrlr/CI-CD-test && git pull'
