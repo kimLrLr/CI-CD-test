@@ -33,29 +33,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Setup SSH key
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
+      - name: Setup SSH key
 
-      # - name: Add server to known_hosts
-      #   run: |
-      #     ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-      # - name: SSH to Ubuntu Server Update
-      #   run: |
-      #     ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -p 9922 192.168.1.8 >> ~/.ssh/known_hosts
 
       - name: SSH to Ubuntu Server Update
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p 9922 kimlrlr@192.168.1.8 'cd /home/kimlrlr/CI-CD-test && git pull'
 
       # - name: SSH Remote Commands
       #   uses: webfactory/ssh-agent@v0.9.0
